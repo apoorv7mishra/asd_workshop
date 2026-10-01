@@ -3,6 +3,9 @@ const app = express();
 const port = process.env.PORT || 3000;
 const productRoutes = require('./routes/productRoutes');
 app.use(express.json());
+app.get('/health', (req, res) => {
+    res.json({ status: 'ok' });
+});
 app.use('/', productRoutes);
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
