@@ -1,15 +1,15 @@
-const cache = {};
+const cache = new Map();
 const TTL = 60 * 1000; 
 function cacheMiddleware(req, res, next) {
     const key = req.originalUrl;
-    const cached = cache[key];
+    const cached = cache.get(key);
     if (!cached) {
         res.setHeader('X-Cache', 'MISS');
         return next();
     }
     const age = Date.now() - cached.createdAt;
     if (age >= TTL) {
-        delete cache[key];
+        cache.delete(key);
         res.setHeader('X-Cache', 'MISS');
         return next();
     }
@@ -17,15 +17,13 @@ function cacheMiddleware(req, res, next) {
     return res.json(cached.data);
 }
 function setCache(key, data) {
-    cache[key] = {
+    cache.set(key, {
         data: data,
         createdAt: Date.now()
-    };
+    });
 }
 function invalidateCache() {
-    Object.keys(cache).forEach((key) => {
-        delete cache[key];
-    });
+    cache.clear();
 }
 module.exports = {
     cacheMiddleware,
