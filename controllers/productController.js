@@ -35,6 +35,10 @@ async function getProductById(req, res) {
     }
 }
 async function createProduct(req, res) {
+    const { name, price } = req.body || {};
+    if (typeof name !== 'string' || !name.trim() || typeof price !== 'number' || !Number.isFinite(price)) {
+        return res.status(400).json({ message: 'A name and numeric price are required' });
+    }
     try {
         const product = await productService.createProduct(req.body);
         invalidateCache();
