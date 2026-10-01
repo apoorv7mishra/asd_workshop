@@ -13,9 +13,11 @@ async function getProductById(id) {
 }
 async function createProduct(product) {
     const products = await readFile();
-    products.push(product);
+    const nextId = products.reduce((maxId, item) => Math.max(maxId, item.id), 0) + 1;
+    const newProduct = { id: nextId, ...product };
+    products.push(newProduct);
     await writeFile(products);
-    return product;
+    return newProduct;
 }
 async function updateProduct(id, data) {
     const products = await readFile();
