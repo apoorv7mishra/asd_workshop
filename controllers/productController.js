@@ -8,7 +8,7 @@ async function getProducts(req, res) {
         res.setHeader('X-Cache', 'MISS');
         return res.json(products);
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.status(500).json({
             message: 'Server error'
         });
@@ -28,7 +28,7 @@ async function getProductById(req, res) {
         res.setHeader('X-Cache', 'MISS');
         return res.json(product);
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.status(500).json({
             message: 'Server error'
         });
@@ -41,7 +41,7 @@ async function createProduct(req, res) {
         return res.status(201).json(product);
 
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.status(500).json({
             message: 'Server error'
         });
@@ -61,7 +61,7 @@ async function updateProduct(req, res) {
         invalidateCache();
         return res.json(product);
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.status(500).json({
             message: 'Server error'
         });
@@ -81,7 +81,7 @@ async function patchProduct(req, res) {
         invalidateCache();
         return res.json(product);
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.status(500).json({
             message: 'Server error'
         });
@@ -103,7 +103,7 @@ async function deleteProduct(req, res) {
             product
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.status(500).json({
             message: 'Server error'
         });
